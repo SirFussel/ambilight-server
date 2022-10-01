@@ -1,0 +1,9 @@
+[Unit]
+Description=Visibility control service to enable/disable ambilight
+After=multi-user.target
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/python3 /home/pi/blind.py
+[Install]
+WantedBy=multi-user.target
