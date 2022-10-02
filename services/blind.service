@@ -4,6 +4,6 @@ After=multi-user.target
 [Service]
 Type=simple
 Restart=always
-ExecStart=/usr/bin/python3 /home/pi/blind.py
+ExecStart=/usr/bin/python3 /home/pi/blind/blind/blind.py
 [Install]
 WantedBy=multi-user.target
