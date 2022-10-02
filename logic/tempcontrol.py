@@ -14,7 +14,7 @@ class TemperatureControl:
         self._killer = GracefulKiller()
 
         self.TEMP_UPPER_LIMIT_CELSIUS = 55.0
-        self.TEMP_LOWER_LIMIT_CELSIUS = 45.0
+        self.TEMP_LOWER_LIMIT_CELSIUS = 48.0
 
         self.cpu_temp: float = 0.0
         self.last_cpu_temp: float = 0.0
@@ -42,6 +42,7 @@ class TemperatureControl:
         self.fan_enabled = False
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.fan_pin, GPIO.OUT)
+        self.disable_fan()
 
     def get_temperature(self) -> float:
         try:
