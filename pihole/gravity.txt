@@ -1,0 +1,6 @@
+# Private gravity list for Raspberry Pi's PiHole
+cdn5.anyclip.com
+player.anyclip.com
+trafficmanager.anyclip.com
+lreprx-serve.anyclip.com
+pixel.anyclip.com
