@@ -1,3 +1,1 @@
-pycairo
-PyGObject
-pyudev
+adafruit-circuitpython-ads1x15

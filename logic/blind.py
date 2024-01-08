@@ -1,30 +1,29 @@
-import pyudev
 import time
 import threading
 from base import GracefulKiller
+import board
+import busio
+import adafruit_ads1x15.ads1015 as ADS
+from adafruit_ads1x15.analog_in import AnalogIn
 
 
 class BlindService:
     def __init__(self) -> None:
-        self.devices = {}
-        self._worker = threading.Thread(target=self._device_handler, daemon=True)
+        # Create the I2C bus
+        self.i2c = busio.I2C(board.SCL, board.SDA)
+        # Create the ADC object using the I2C bus
+        self.ads = ADS.ADS1015(self.i2c)
+        # Create single-ended input on channel 0
+        self.chan = AnalogIn(self.ads, ADS.P0)
+
+        self._worker = threading.Thread(target=self._poll, daemon=True)
         self._worker.start()
         
-    def _device_handler(self):
-        context = pyudev.Context()
-        monitor = pyudev.Monitor.from_netlink(context)
-        monitor.filter_by('block')
-        for device in iter(monitor.poll, None):
-            if 'ID_FS_TYPE' in device:
-                print('{0} partition {1}'.format(device.action, device.get('ID_FS_LABEL')))
-    
-    def add_device(self, device_label: str):
-        self.devices.append(device_label)
-    
-    def remove_device(self, device_label: str):
-        self.devices.remove(device_label)
-
-
+    def _poll(self):
+        print("{:>5}\t{:>5}".format('raw', 'v'))
+        while True:
+            print("{:>5}\t{:>5.3f}".format(self.chan.value, self.chan.voltage))
+            time.sleep(0.5)
 
 # observer did not block
 print("no block")
